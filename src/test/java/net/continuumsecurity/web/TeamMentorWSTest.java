@@ -1,11 +1,16 @@
 package net.continuumsecurity.web;
 
+import https.teammentor_securityinnovation_com._13415.TMUser;
 import org.junit.Before;
 import org.junit.Test;
+import org.tempuri.TMWebServices;
+import org.tempuri.TMWebServicesSoap;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 import java.net.URL;
+
+import static junit.framework.Assert.assertEquals;
 
 /**
  * ****************************************************************************
@@ -29,36 +34,40 @@ import java.net.URL;
  */
 public class TeamMentorWSTest {
     private static final QName SERVICE_NAME = new QName("http://tempuri.org/", "TM_WebServices");
-    org.tempuri.TMWebServicesSoap port;
+    TMWebServicesSoap port;
+    TMUser currentUser;
 
     @Before
     public void setup() {
-        URL wsdlURL = org.tempuri.TMWebServices.WSDL_LOCATION;
-        org.tempuri.TMWebServices ss = new org.tempuri.TMWebServices(wsdlURL, SERVICE_NAME);
+        URL wsdlURL = TMWebServices.WSDL_LOCATION;
+        TMWebServices ss = new TMWebServices(wsdlURL, SERVICE_NAME);
         port = ss.getTMWebServicesSoap();
         ((BindingProvider)port).getRequestContext().put(BindingProvider.SESSION_MAINTAIN_PROPERTY, true);
     }
 
 
     public void printDetails() {
-        https.teammentor_securityinnovation_com._13415.TMUser user = port.currentUser();
-        System.out.println(user.getFirstName()+ " "+user.getLastName());
-        System.out.println("Group ID: "+user.getGroupID());
+        currentUser = port.currentUser();
+        System.out.println(currentUser.getFirstName() + " " + currentUser.getLastName());
+        System.out.println("Group ID: " + currentUser.getGroupID());
         System.out.println(port.currentSessionID());
     }
 
     @Test
-    public void testLogin() {
+    public void testLoginOk() {
         port.loginPwdInClearText("admin", "!!tmadmin");
         printDetails();
+        assertEquals("John",currentUser.getFirstName());
         port.logout();
 
         port.loginPwdInClearText("reader", "!!tmreader");
         printDetails();
+        assertEquals("Peter",currentUser.getFirstName());
         port.logout();
 
         port.loginPwdInClearText("editor", "!!tmeditor");
         printDetails();
+        assertEquals("Joe",currentUser.getFirstName());
         port.logout();
     }
 }
