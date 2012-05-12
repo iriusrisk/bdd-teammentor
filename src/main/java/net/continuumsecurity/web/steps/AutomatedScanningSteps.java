@@ -25,7 +25,7 @@ import net.continuumsecurity.reporting.BurpAnalyser;
 import net.continuumsecurity.reporting.ScannerReporter;
 import net.continuumsecurity.restyburp.model.ScanIssueBean;
 import net.continuumsecurity.restyburp.model.ScanIssueList;
-import net.continuumsecurity.web.WebApplication;
+import net.continuumsecurity.web.Application;
 import net.continuumsecurity.web.drivers.BurpFactory;
 import net.continuumsecurity.web.drivers.DriverFactory;
 import org.apache.log4j.Logger;
@@ -40,7 +40,7 @@ import static org.hamcrest.Matchers.greaterThan;
 public class AutomatedScanningSteps {
 	Logger log = Logger.getLogger(AutomatedScanningSteps.class);
 	BurpClient burp;
-	WebApplication app;
+	Application app;
 	ScanPolicy scanPolicy;
 	ScanIssueList issues;
 	String vulnName;
@@ -139,7 +139,7 @@ public class AutomatedScanningSteps {
 		// Navigate through the app and record the traffic through the
 		// scanner
 		for (Method method : app.getScannableMethods()) {
-			app.setDriver(DriverFactory.getDriver(Config.getBurpDriver()));
+			app.setHttpLoggingClient();
 			log.debug("Navigating method: "+method.getName());
 			app.getClass().getMethod(method.getName(), null).invoke(app, null);
 		}

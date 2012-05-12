@@ -2,37 +2,26 @@
 <web-app>
     <!-- The settings in this file are for the ropey-tasks vulnerable web app available at: https://github.com/stephendv/RopeyTasks, you'll need to modify them for your app! -->
 
-    <!-- Available drivers can be found in net.continuumsecurity.web.drivers.DriverFactory -->
-    <defaultDriver>HtmlUnit</defaultDriver>
-
-    <!-- The driver that the automated tests will use to point at Burp, available drivers can be found in net.continuumsecurity.web.drivers.Burp*Driver -->
-    <burpDriver>BurpHtmlUnit</burpDriver>
-
     <!-- Base URL for the application to test -->
     <baseUrl>http://localhost:9110/ropeytasks/</baseUrl>
 
     <!-- The fully qualified class name representing the application under test -->
-    <class>net.continuumsecurity.examples.ropeytasks.RopeyTasksApplication</class>
+    <class>com.securityinnovation.teammentor.TeamMentorWSApplication</class>
 
     <!-- Names of the session ID cookies -->
     <sessionIds>
-        <name>JSESSIONID</name>
+        <name>Session</name>
     </sessionIds>
 
     <users>
-        <user username="bob" password="password">
-            <role>user</role>
-            <recoverpassword name="email" value="bob@continuumsecurity.net"/>
+        <user username="reader" password="!!tmreader">
+            <role>reader</role>
+
         </user>
-        <user username="alice" password="password">
-                  <role>user</role>
-                  <recoverpassword name="email" value="alice@continuumsecurity.net"/>
+        <user username="editor" password="!!tmeditor">
+                  <role>editor</role>
           </user>     
-        <user username="admin" password="password">
-            <role>admin</role>
-            <role>user</role>
-            <recoverpassword name="email" value="admin@continuumsecurity.net"/>
-        </user>
+
     </users>
 
     <incorrectPassword>SDFsdfwjx1</incorrectPassword>

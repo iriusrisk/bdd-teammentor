@@ -106,16 +106,13 @@ public class TeamMentorWSTest {
 
     @Test
     public void testGetUserByName() {
-        createClient();
         port.loginPwdInClearText("admin", "!!tmadmin");
         setCSRFToken();
-        createClient();
         port.loginPwdInClearText("admin", "!!tmadmin");
         setCSRFToken();
         TMUser user = port.getUserByName("reader");
         assertEquals("Peter",user.getFirstName());
 
-        createClient();
         user = port.getUserByName("editor");
         assertEquals("Joe",user.getFirstName());
 

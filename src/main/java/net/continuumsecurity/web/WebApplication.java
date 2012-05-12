@@ -18,7 +18,10 @@
  ******************************************************************************/
 package net.continuumsecurity.web;
 
+import net.continuumsecurity.Config;
+import net.continuumsecurity.UnexpectedContentException;
 import net.continuumsecurity.behaviour.ICaptcha;
+import net.continuumsecurity.web.drivers.DriverFactory;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
@@ -52,7 +55,17 @@ public class WebApplication extends Application {
 		this.driver = driver;
 	}
 
+    public void verifyTextPresent(String text) {
+        if (!this.driver.getPageSource().contains(text)) throw new UnexpectedContentException("Expected text: ["+text+"] was not found.");
+    }
+
+    @Override
     public Cookie getCookieByName(String name) {
         return driver.manage().getCookieNamed(name);
+    }
+
+    @Override
+    public void setHttpLoggingClient() {
+        setDriver(DriverFactory.getDriver(Config.getBurpDriver()));
     }
 }

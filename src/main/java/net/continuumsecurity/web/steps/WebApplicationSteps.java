@@ -30,6 +30,7 @@ import net.continuumsecurity.burpclient.BurpClient;
 import net.continuumsecurity.restyburp.model.HttpMessage;
 import net.continuumsecurity.restyburp.model.HttpMessageList;
 import net.continuumsecurity.restyburp.model.MessageType;
+import net.continuumsecurity.web.Application;
 import net.continuumsecurity.web.FakeCaptchaHelper;
 import net.continuumsecurity.web.StepException;
 import net.continuumsecurity.web.WebApplication;
@@ -60,7 +61,7 @@ import static org.junit.Assert.fail;
 
 public class WebApplicationSteps {
     Logger log = Logger.getLogger(WebApplicationSteps.class);
-    public WebApplication app;
+    public Application app;
     UserPassCredentials credentials;
     HttpMessage currentHttp;
     HttpMessage savedMessage;
@@ -238,7 +239,7 @@ public class WebApplicationSteps {
 
     @Given("an HTTP logging driver")
     public void setBurpDriver() {
-        app.setDriver(DriverFactory.getDriver(Config.getBurpDriver()));
+        app.setHttpLoggingClient();
     }
 
     @Given("clean HTTP logs")
@@ -282,8 +283,8 @@ public class WebApplicationSteps {
 
     @Then("the protocol of the current URL should be HTTPS")
     public void protocolUrlHttps() {
-        log.debug("URL of login page: " + app.getDriver().getCurrentUrl());
-        assertThat(app.getDriver().getCurrentUrl().substring(0, 4), equalToIgnoringCase("https"));
+        log.debug("URL of login page: " + ((WebApplication)app).getDriver().getCurrentUrl());
+        assertThat(((WebApplication)app).getDriver().getCurrentUrl().substring(0, 4), equalToIgnoringCase("https"));
     }
 
     @Then("the response should be the same as the saved response from the invalid username")
@@ -304,7 +305,7 @@ public class WebApplicationSteps {
     public void getSessionIds() {
         Config.instance();
         for (String name : Config.getSessionIDs()) {
-            sessionIds.add(app.getDriver().manage().getCookieNamed(name));
+            sessionIds.add(app.getCookieByName(name));
         }
     }
 
@@ -313,7 +314,7 @@ public class WebApplicationSteps {
         Config.instance();
         for (String name : Config.getSessionIDs()) {
             String existingCookieValue = findCookieByName(sessionIds, name).getValue();
-            assertThat(app.getDriver().manage().getCookieNamed(name).getValue(), not(existingCookieValue));
+            assertThat(app.getCookieByName(name).getValue(), not(existingCookieValue));
         }
     }
 
@@ -321,7 +322,7 @@ public class WebApplicationSteps {
     public void sessionCookiesSecureFlag() {
         Config.instance();
         for (String name : Config.getSessionIDs()) {
-            assertThat(app.getDriver().manage().getCookieNamed(name).isSecure(), equalTo(true));
+            assertThat(app.getCookieByName(name).isSecure(), equalTo(true));
         }
     }
 
@@ -371,7 +372,7 @@ public class WebApplicationSteps {
 
     @Then("the password field should have the autocomplete directive set to 'off'")
     public void thenThePasswordFieldShouldHaveTheAutocompleteDirectiveSetTodisabled() {
-        WebElement passwd = app.getDriver().findElement(By.xpath("//input[@type='password']"));
+        WebElement passwd = ((WebApplication)app).getDriver().findElement(By.xpath("//input[@type='password']"));
         assertThat(passwd.getAttribute("autocomplete"), equalToIgnoringCase("off"));
     }
 
@@ -395,7 +396,7 @@ public class WebApplicationSteps {
     @Given("a CAPTCHA solver that always fails")
     public void setIncorrectCaptchaHelper() {
         if (!(app instanceof ICaptcha)) throw new RuntimeException("App does not implement ICaptcha, skipping.");
-        app.setCaptchaHelper(new FakeCaptchaHelper((ICaptcha) app));
+        ((ICaptcha)app).setCaptchaHelper(new FakeCaptchaHelper((ICaptcha) app));
     }
 
     @When("the password recovery feature is requested")
@@ -452,7 +453,7 @@ public class WebApplicationSteps {
         Assert.assertThat("Resource: " + method + " can be accessed.", accessible, equalTo(false));
     }
 
-    public WebApplication getWebApplication() {
+    public Application getWebApplication() {
         return app;
     }
 

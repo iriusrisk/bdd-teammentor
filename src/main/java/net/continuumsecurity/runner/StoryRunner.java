@@ -20,7 +20,7 @@ package net.continuumsecurity.runner;
 
 import net.continuumsecurity.Config;
 import net.continuumsecurity.behaviour.ILogin;
-import net.continuumsecurity.web.WebApplication;
+import net.continuumsecurity.web.Application;
 import net.continuumsecurity.web.drivers.BurpFactory;
 import net.continuumsecurity.web.drivers.DriverFactory;
 import net.continuumsecurity.web.steps.AutomatedScanningSteps;
@@ -107,7 +107,7 @@ public class StoryRunner extends BaseStoryRunner {
 		if (useFilters != null)
 			filters.addAll(parseMetaFilters());
 		
-		WebApplication app = Config.createApp(null);
+		Application app = Config.createApp(null);
 		if (app instanceof ILogin) {
 			log.debug(" app implements ILogin");
 		} else {

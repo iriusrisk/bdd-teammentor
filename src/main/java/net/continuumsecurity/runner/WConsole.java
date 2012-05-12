@@ -20,17 +20,15 @@ package net.continuumsecurity.runner;
 
 
 import groovy.ui.Console;
-
 import net.continuumsecurity.Config;
-import net.continuumsecurity.web.WebApplication;
+import net.continuumsecurity.web.Application;
 import net.continuumsecurity.web.drivers.BurpFactory;
 import net.continuumsecurity.web.drivers.DriverFactory;
-
 import org.apache.log4j.PropertyConfigurator;
 
 
 public class WConsole {
-	WebApplication app;
+	Application app;
 
 	public WConsole() {
         PropertyConfigurator.configure("log4j.properties");
@@ -40,7 +38,8 @@ public class WConsole {
 	public void run() {
 		Console console = new Console(); 
 		console.setVariable("app",app);
-		console.setVariable("driver",app.getDriver());
+        //TODO fixme
+		//console.setVariable("driver",app.getDriver());
 		console.setVariable("burpDriver",DriverFactory.getDriver(Config.getBurpDriver()));
 		console.setVariable("burp",BurpFactory.getBurp());
 		console.run();

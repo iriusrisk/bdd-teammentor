@@ -73,6 +73,8 @@ public abstract class Application {
         return null;
     }
 
-    abstract Cookie getCookieByName(String name);
+    public abstract Cookie getCookieByName(String name);
+
+    public abstract void setHttpLoggingClient();
 
 }
