@@ -65,7 +65,12 @@ public class WebApplication extends Application {
     }
 
     @Override
-    public void setHttpLoggingClient() {
+    public void enableHttpLoggingClient() {
         setDriver(DriverFactory.getDriver(Config.getBurpDriver()));
+    }
+
+    @Override
+    public void enableDefaultClient() {
+        setDriver(DriverFactory.getDriver(Config.getDefaultDriver()));
     }
 }

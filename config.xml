@@ -14,15 +14,20 @@
     </sessionIds>
 
     <users>
-        <user username="reader" password="!!tmreader">
+        <user username="reader" password="tmreader">
             <role>reader</role>
 
         </user>
-        <user username="editor" password="!!tmeditor">
+        <user username="editor" password="tmeditor">
                   <role>editor</role>
-          </user>     
+        </user>
+        <user username="admin" password="tmadmin">
+            <role>admin</role>
+        </user>
 
     </users>
+
+    <testLibraryId>4738d445-bc9b-456c-8b35-a35057596c16</testLibraryId>
 
     <incorrectPassword>SDFsdfwjx1</incorrectPassword>
     <incorrectUsername>bobbles</incorrectUsername>
@@ -35,7 +40,7 @@
         <WSProxyHost></WSProxyHost>
         <WSProxyPort></WSProxyPort>
     </burp>
-    <displayStackTrace>false</displayStackTrace>
+    <displayStackTrace>true</displayStackTrace>
     <storyDir>src/main/stories/</storyDir>
     <reportsDir>reports</reportsDir>
     <latestReportsDir>target/jbehave/</latestReportsDir>

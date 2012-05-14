@@ -9,6 +9,7 @@ import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.Cookie;
 import org.tempuri.TMWebServices;
 import org.tempuri.TMWebServicesSoap;
 
@@ -104,7 +105,7 @@ public class TeamMentorWSTest {
         }
     }
 
-    @Test
+    //@Test
     public void testGetUserByName() {
         port.loginPwdInClearText("admin", "!!tmadmin");
         setCSRFToken();
@@ -117,6 +118,43 @@ public class TeamMentorWSTest {
         assertEquals("Joe",user.getFirstName());
 
         port.logout();
+    }
+
+    @Test
+    public void testListUsers() {
+        port.loginPwdInClearText("reader", "tmreader");
+        setCSRFToken();
+        port.getUsers();
+    }
+
+    //@Test
+    public void testGetCookieByName() {
+        port.loginPwdInClearText("reader","tmreader");
+        Client client = ClientProxy.getClient(port);
+        client.getEndpoint().getOutInterceptors().add(new SoapActionInterceptor());
+        HTTPConduit http = (HTTPConduit) client.getConduit();
+        for (String name : http.getCookies().keySet()) {
+            System.out.println("index name: "+name+" cookiename: "+http.getCookies().get(name).getName()+" value: "+http.getCookies().get(name).getValue());
+        }
+    }
+
+
+    public Cookie getCookieByName(String name) {
+        Client client = ClientProxy.getClient(port);
+        client.getEndpoint().getOutInterceptors().add(new SoapActionInterceptor());
+        HTTPConduit http = (HTTPConduit) client.getConduit();
+        if (http.getCookies() == null || http.getCookies().size() == 0) return null;
+        org.apache.cxf.transport.http.Cookie cookie = http.getCookies().get(name);
+        Cookie returnCookie = new Cookie(cookie.getName(),cookie.getValue(),cookie.getPath());
+        return returnCookie;
+    }
+
+    //@Test
+    public void testCreateArticle() {
+        port.loginPwdInClearText("editor", "tmeditor");
+        setCSRFToken();
+        //System.out.println(port.getLibraries().getTMLibrary().get(0).getId());
+        port.createArticleSimple("4738d445-bc9b-456c-8b35-a35057596c16","title test","String","<h1>A test</h1>");
     }
 
     //@Test

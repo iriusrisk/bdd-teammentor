@@ -28,7 +28,7 @@ import org.jbehave.core.steps.InjectableStepsFactory;
 import java.util.List;
 
 public abstract class BaseStoryRunner extends JUnitStories {
-	Logger log = Logger.getLogger(StoryRunner.class);
+	Logger log = Logger.getLogger(BaseStoryRunner.class);
 	protected static String storyUrl = Config.getStoryUrl();
 	
 	public BaseStoryRunner() {

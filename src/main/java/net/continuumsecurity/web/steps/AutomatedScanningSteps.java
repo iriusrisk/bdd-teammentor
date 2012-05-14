@@ -27,7 +27,6 @@ import net.continuumsecurity.restyburp.model.ScanIssueBean;
 import net.continuumsecurity.restyburp.model.ScanIssueList;
 import net.continuumsecurity.web.Application;
 import net.continuumsecurity.web.drivers.BurpFactory;
-import net.continuumsecurity.web.drivers.DriverFactory;
 import org.apache.log4j.Logger;
 import org.jbehave.core.annotations.*;
 
@@ -53,7 +52,8 @@ public class AutomatedScanningSteps {
 
 	@BeforeStory
 	public void createScanner() {
-		app = Config.createApp(DriverFactory.getDriver(Config.getBurpDriver()));
+		app = Config.createApp();
+        app.enableHttpLoggingClient();
 		scanPolicy = new ScanPolicy();
 		log.debug("Resetting Burp state");
 		this.burp = BurpFactory.getBurp();
@@ -139,7 +139,7 @@ public class AutomatedScanningSteps {
 		// Navigate through the app and record the traffic through the
 		// scanner
 		for (Method method : app.getScannableMethods()) {
-			app.setHttpLoggingClient();
+			app.enableHttpLoggingClient();
 			log.debug("Navigating method: "+method.getName());
 			app.getClass().getMethod(method.getName(), null).invoke(app, null);
 		}

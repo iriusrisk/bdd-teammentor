@@ -75,6 +75,7 @@ public abstract class Application {
 
     public abstract Cookie getCookieByName(String name);
 
-    public abstract void setHttpLoggingClient();
+    public abstract void enableHttpLoggingClient();
 
+    public abstract void enableDefaultClient();
 }

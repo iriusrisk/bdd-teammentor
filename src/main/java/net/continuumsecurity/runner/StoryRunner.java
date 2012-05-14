@@ -19,8 +19,6 @@
 package net.continuumsecurity.runner;
 
 import net.continuumsecurity.Config;
-import net.continuumsecurity.behaviour.ILogin;
-import net.continuumsecurity.web.Application;
 import net.continuumsecurity.web.drivers.BurpFactory;
 import net.continuumsecurity.web.drivers.DriverFactory;
 import net.continuumsecurity.web.steps.AutomatedScanningSteps;
@@ -106,14 +104,6 @@ public class StoryRunner extends BaseStoryRunner {
 		List<String> filters = new ArrayList<String>();
 		if (useFilters != null)
 			filters.addAll(parseMetaFilters());
-		
-		Application app = Config.createApp(null);
-		if (app instanceof ILogin) {
-			log.debug(" app implements ILogin");
-		} else {
-			log.debug(" app doesn't implement ILogin, skipping authentication tests");
-			filters.add("-story Authentication");
-		}
 		filters.add("-skip");
 		log.debug(" running with filters:");
 		for (String filter : filters) {

@@ -6,6 +6,7 @@ Meta:
 Scenario: Verify that all configured user accounts can login correctly
 Meta:
 @id config_login_ok
+@webservice
 
 Given a fresh application
 And the login page
@@ -20,6 +21,7 @@ users.table
 Scenario: Verify that users are not logged in when using an incorrect password
 Meta:
 @id config_wrong_password
+@webservice
 
 Given a fresh application
 And the login page
@@ -35,6 +37,7 @@ Scenario: Verify that if users don't login, then they are not logged in (Accordi
 Meta:
 @Description The isLoggedIn function should return false if users haven't logged in.
 @id config_is_logged_in
+@webservice
 
 Given the login page
 Then the user is not logged in
@@ -42,6 +45,7 @@ Then the user is not logged in
 Scenario: Verify that the methods tagged with @SecurityScan can be navigated without errors
 Meta:
 @id config_navigate_all
+@webservice
 
 Given the login page
 When the scannable methods of the application are navigated

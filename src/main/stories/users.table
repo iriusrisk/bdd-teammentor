@@ -1,3 +1,4 @@
 |username		|password		|roles		
-|reader		|!!tmreader		|reader		
-|editor		|!!tmeditor		|editor		
+|reader		|tmreader		|reader		
+|editor		|tmeditor		|editor		
+|admin		|tmadmin		|admin		

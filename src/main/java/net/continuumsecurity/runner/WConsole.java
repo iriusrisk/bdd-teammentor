@@ -32,7 +32,8 @@ public class WConsole {
 
 	public WConsole() {
         PropertyConfigurator.configure("log4j.properties");
-		app = Config.createApp(DriverFactory.getDriver(Config.getDefaultDriver()));
+		app = Config.createApp();
+        app.enableDefaultClient();
 	}
 
 	public void run() {

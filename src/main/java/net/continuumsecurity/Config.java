@@ -19,18 +19,15 @@
 package net.continuumsecurity;
 
 import net.continuumsecurity.web.Application;
-import net.continuumsecurity.web.WebApplication;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.log4j.PropertyConfigurator;
-import org.openqa.selenium.WebDriver;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,31 +36,14 @@ import java.util.Map;
 
 public class Config {
 
-    public static Application createApp(WebDriver driver) {
+    public static Application createApp() {
         Object app = null;
         try {
             Class appClass = Class.forName(Config.getClassName());
-            if (appClass.getSuperclass().equals(WebApplication.class)) {
-                Constructor constructor = appClass.getConstructor(WebDriver.class);
-                app = constructor.newInstance(driver);
-                if (!(app instanceof WebApplication)) {
-                    System.err.println("FATAL error: The defined class: "
-                            + Config.getClassName()
-                            + " does not extend WebApplication.");
-                    System.exit(1);
-                }
-                return (WebApplication) app;
-            } else {
-            //If it's not a WebApplication, then it must be a WebService, i.e. noarg constructor
-                app = appClass.newInstance();
-                if (!(app instanceof Application)) {
-                    System.err.println("FATAL error: The defined class: "
-                            + Config.getClassName()
-                            + " does not extend Application.");
-                    System.exit(1);
-                }
-                return (Application) app;
-            }
+            app = appClass.newInstance();
+
+            return (Application) app;
+
 
         } catch (Exception e) {
             System.err.println("FATAL error instantiating the class: "
@@ -88,11 +68,12 @@ public class Config {
     }
 
     public synchronized void initialiseTables() {
+        Application app = createApp();
         writeTable(getStoryDir() + "users.table", usersToTable(getUsers()));
         writeTable(getStoryDir() + "tables" + File.separator + "authorised.resources.table",
-                authorisedResourcesToTable(createApp(null), getUsers()));
+                authorisedResourcesToTable(app, getUsers()));
         writeTable(getStoryDir() + "tables" + File.separator + "unauthorised.resources.table",
-                unAuthorisedResourcesToTable(createApp(null), getUsers()));
+                unAuthorisedResourcesToTable(app, getUsers()));
     }
 
     protected static Config config;

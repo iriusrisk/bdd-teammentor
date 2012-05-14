@@ -1,1 +1,4 @@
 |method		|username		|password		|verifyString		
+|listUsers		|admin		|tmadmin		|UserID		
+|createArticle		|admin		|tmadmin		|CreateArticle_SimpleResult		
+|createArticle		|editor		|tmeditor		|CreateArticle_SimpleResult		
