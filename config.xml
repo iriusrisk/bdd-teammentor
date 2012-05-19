@@ -3,7 +3,7 @@
     <!-- The settings in this file are for the ropey-tasks vulnerable web app available at: https://github.com/stephendv/RopeyTasks, you'll need to modify them for your app! -->
 
     <!-- Base URL for the application to test -->
-    <baseUrl>http://localhost:9110/ropeytasks/</baseUrl>
+    <baseUrl>http://172.16.1.128:8008/Aspx_Pages/</baseUrl>
 
     <!-- The fully qualified class name representing the application under test -->
     <class>com.securityinnovation.teammentor.TeamMentorWSApplication</class>

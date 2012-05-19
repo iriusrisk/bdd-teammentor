@@ -10,6 +10,7 @@ import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.Cookie;
+import org.tempuri.NewUser;
 import org.tempuri.TMWebServices;
 import org.tempuri.TMWebServicesSoap;
 
@@ -20,6 +21,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -64,6 +66,19 @@ public class TeamMentorWSTest {
         httpClientPolicy.setAllowChunking(false);
         http.setClient(httpClientPolicy);
         ((BindingProvider)port).getRequestContext().put(BindingProvider.SESSION_MAINTAIN_PROPERTY, true);
+
+
+        port.loginPwdInClearText("admin", "tmadmin");
+        setCSRFToken();
+
+        try {
+            TMUser bob = port.getUserByName("bobster");
+            if (bob != null) port.deleteUser(bob.getUserID());
+        } catch (Exception e) {
+            System.out.println("No existing user found, no need to delete.");
+        }
+        port.logout();
+
     }
 
     private void setCSRFToken() {
@@ -120,7 +135,7 @@ public class TeamMentorWSTest {
         port.logout();
     }
 
-    @Test
+    //@Test
     public void testListUsers() {
         port.loginPwdInClearText("reader", "tmreader");
         setCSRFToken();
@@ -155,6 +170,24 @@ public class TeamMentorWSTest {
         setCSRFToken();
         //System.out.println(port.getLibraries().getTMLibrary().get(0).getId());
         port.createArticleSimple("4738d445-bc9b-456c-8b35-a35057596c16","title test","String","<h1>A test</h1>");
+    }
+
+    @Test
+    public void createUser() {
+        String t = "blahhello1blah";
+        Pattern p = Pattern.compile("hello\\d");
+        System.out.println(p.matcher(t).find());
+
+        port.loginPwdInClearText("reader", "tmreader");
+        setCSRFToken();
+        NewUser user = new NewUser();
+        user.setEmail("test@test.com");
+        user.setFirstname("bob");
+        user.setLastname("bobster");
+        user.setUsername("bobster");
+        user.setGroupId(2);
+        port.createUser(user);
+        TMUser createdUser = port.getUserByName("bobster");
     }
 
     //@Test

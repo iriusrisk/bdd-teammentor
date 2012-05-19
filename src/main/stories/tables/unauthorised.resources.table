@@ -2,3 +2,5 @@
 |listUsers		|reader		|tmreader		|UserID		
 |listUsers		|editor		|tmeditor		|UserID		
 |createArticle		|reader		|tmreader		|CreateArticle_SimpleResult		
+|createUser		|reader		|tmreader		|CreateUserResult		
+|createUser		|editor		|tmeditor		|CreateUserResult		

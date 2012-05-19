@@ -32,12 +32,10 @@ public class WebApplication extends Application {
 	protected WebDriver driver;
 	protected ICaptchaHelper captchaHelper;
 
-	public WebApplication(WebDriver driver) {
-		log = Logger.getLogger(WebApplication.class);
-		log.debug("Constructing new WebApplication");
-		this.driver = driver;
-		if (this instanceof ICaptcha) captchaHelper = new CaptchaHelper((ICaptcha)this);
-	}
+    public WebApplication() {
+        log = Logger.getLogger(WebApplication.class);
+        if (this instanceof ICaptcha) captchaHelper = new CaptchaHelper((ICaptcha)this);
+    }
 
     public ICaptchaHelper getCaptchaHelper() {
         return captchaHelper;

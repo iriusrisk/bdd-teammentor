@@ -257,7 +257,7 @@ public class Config {
                 row.add(method.getName());
                 row.add(users.getDefaultCredentials(role).get("username"));
                 row.add(users.getDefaultCredentials(role).get("password"));
-                row.add(method.getAnnotation(Restricted.class).verifyWithText());
+                row.add(method.getAnnotation(Restricted.class).verifyTextPresent());
                 table.add(row);
             }
         }
@@ -284,7 +284,7 @@ public class Config {
                 row.add(method.getName());
                 row.add(user.getCredentials().get("username"));
                 row.add(user.getCredentials().get("password"));
-                row.add(method.getAnnotation(Restricted.class).verifyWithText());
+                row.add(method.getAnnotation(Restricted.class).verifyTextPresent());
                 table.add(row);
             }
         }

@@ -16,7 +16,6 @@ And the password <password>
 When the user logs in
 And the HTTP logs are cleared
 Then they should see the word <verifyString> when accessing the restricted resource <method>
-And the resource name <method> and HTTP requests should be recorded and stored
 
 Examples:
 tables/authorised.resources.table
@@ -43,9 +42,9 @@ Meta:
 @Description Resources that should only be visible to authenticated users should not be accessible if users have not logged in
 @Reference WASC-01 http://projects.webappsec.org/w/page/13246939/Insufficient%20Authentication
 @id anon_access_control
-@skip
 
-Given a fresh application
+Given the access control map for authorised users has been populated
+And a fresh application
 And the login page
 Then they should not see the word <verifyString> when accessing the restricted resource <method>
 

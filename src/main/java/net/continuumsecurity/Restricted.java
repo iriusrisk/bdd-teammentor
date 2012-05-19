@@ -27,5 +27,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Restricted {
 	String[] roles();
-    String verifyWithText();
+    String verifyTextPresent();
 }
