@@ -52,7 +52,7 @@ public class BurpAnalyser {
             log.info("HttpOnly issue found, ignoring as it's already defined in a BDD test");
 			return null;
 		}
-        /*
+
         if (issue.getIssueDetail().contains("xmlns XML attribute appears to be vulnerable to XML injection")) {
             log.info("Ignoring xmlns XML attribute false positive");
             return null;
@@ -60,7 +60,7 @@ public class BurpAnalyser {
         if (issue.getIssueDetail().contains("The xmlns:soap XML attribute appears to be vulnerable to XML injection")) {
             log.info("Ignoring xmlns:soap attribute xml inj false positive");
             return null;
-        }       */
+        }
         log.info("Stop Burp Issue filtering.");
 		return issue;
 	}
